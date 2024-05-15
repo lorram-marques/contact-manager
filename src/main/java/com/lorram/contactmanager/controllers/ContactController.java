@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -27,10 +28,13 @@ public class ContactController {
 	private ContactService service;
 	
 	@GetMapping
-	public ResponseEntity<Page<ContactDTO>> findAll(Pageable pageable) {
-		Page<ContactDTO> page = service.findAll(pageable);
-		return ResponseEntity.ok().body(page);
-		}
+	public ResponseEntity<Page<ContactDTO>> findAll(
+			@RequestParam(value = "name", defaultValue = "") String name,
+			Pageable pageable) {
+		
+		Page<ContactDTO> list = service.findAll(name.trim(), pageable);		
+		return ResponseEntity.ok().body(list);
+	}
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ContactDTO> findById(@PathVariable Long id) {

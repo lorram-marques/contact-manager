@@ -20,8 +20,8 @@ public class ContactService {
 	@Autowired
 	private ContactRepository repository;
 
-	public Page<ContactDTO> findAll(Pageable pageable) {
-		Page<Contact> list = repository.findAll(pageable);
+	public Page<ContactDTO> findAll(String name, Pageable pageable) {
+		Page<Contact> list = repository.find(name, pageable);
 		return list.map(x -> new ContactDTO(x));
 	}
 
